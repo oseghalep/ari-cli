@@ -1,0 +1,1 @@
+from ari_cli.config import list_aliases as list_items

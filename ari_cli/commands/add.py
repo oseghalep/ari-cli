@@ -1,0 +1,1 @@
+from ari_cli.config import add_alias

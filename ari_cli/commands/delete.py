@@ -1,0 +1,1 @@
+from ari_cli.config import remove_alias as delete_item
