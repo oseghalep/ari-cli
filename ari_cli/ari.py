@@ -3,23 +3,29 @@ import click
 
 @click.group()
 def main():
+    """ARI CLI - SSH Alias Manager"""
     pass
 
 @main.command()
 @click.argument('name')
 @click.argument('command')
-def add(name, command):
+@click.option('--password', is_flag=True, help='Prompt for password at runtime')
+@click.option('--passphrase', is_flag=True, help='Prompt for SSH key passphrase at runtime')
+def add(name, command, password, passphrase):
     """Add a new alias."""
     from ari_cli.commands.add import add_alias
-    add_alias(name, command)
-    click.echo(f"Alias '{name}' added.")
+    add_alias(name, command, requires_password=password, requires_passphrase=passphrase)
+    click.echo(f"Alias '{name}' added. Password prompt: {password}, Passphrase prompt: {passphrase}")
 
 @main.command()
 def list():
     """List all aliases."""
     from ari_cli.commands.list import list_items
-    for name, command in list_items().items():
-        click.echo(f"{name} => {command}")
+    for name, data in list_items().items():
+        cmd = data['command']
+        pw = data.get('requires_password', False)
+        pp = data.get('requires_passphrase', False)
+        click.echo(f"{name} => {cmd} | Password: {pw} | Passphrase: {pp}")
 
 @main.command()
 @click.argument('name')
@@ -40,7 +46,7 @@ def get(name):
 @main.command()
 @click.argument('name')
 def run(name):
-    """Run the command linked to a specific alias."""
+    """Run the command linked to an alias."""
     from ari_cli.commands.run import run_alias
     run_alias(name)
 

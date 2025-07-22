@@ -285,6 +285,22 @@ ari backup ~/aliases_backup.json
 
 ---
 
+### 15. 🔐 Using Passwords and SSH Key Passphrases
+
+ARI CLI now supports prompting for a **remote server password** or an **SSH private key passphrase** when connecting.
+
+**Add an alias that prompts for a password:**
+```bash
+ari add myserver "ssh user@192.168.1.10" --password
+
+#### Example:
+
+```bash
+ari add keyserver "ssh -i ~/.ssh/id_rsa user@192.168.1.11" --passphrase
+```
+🔒 Tip: These credentials are never saved — ARI only stores whether a prompt is required.
+
+
 ## Configuration
 
 ARI CLI uses a JSON file to store aliases. By default, this file is located at `~/.ari_aliases.json`. You can manually edit the file if needed, but it's recommended to use the CLI commands for managing aliases.

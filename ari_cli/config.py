@@ -13,9 +13,13 @@ def _save_aliases(aliases):
     with open(CONFIG_PATH, "w") as f:
         json.dump(aliases, f, indent=4)
 
-def add_alias(name, command):
+def add_alias(name, command, requires_password=False, requires_passphrase=False):
     aliases = _load_aliases()
-    aliases[name] = command
+    aliases[name] = {
+        "command": command,
+        "requires_password": requires_password,
+        "requires_passphrase": requires_passphrase
+    }
     _save_aliases(aliases)
 
 def get_alias(name):
